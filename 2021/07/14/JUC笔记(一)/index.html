@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>JUC笔记（一） - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JUC笔记（一）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-14 01:25" pubdate>
+        2021年7月14日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JUC笔记（一）</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Java多线程相关概念"><a href="#Java多线程相关概念" class="headerlink" title="Java多线程相关概念"></a>Java多线程相关概念</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>是程序的⼀次执⾏，是系统进⾏资源分配和调度的独⽴单位，每⼀个进程都有它⾃⼰的内存空间和系统资源</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>在同⼀个进程内⼜可以执⾏多个任务，⽽这每⼀个任务我们就可以看做是⼀个线程</p>
+<p>⼀个进程会有1个或多个线程的</p>
+<h3 id="线程有哪些状态？"><a href="#线程有哪些状态？" class="headerlink" title="线程有哪些状态？"></a>线程有哪些状态？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs java">Thread.State<br> <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">State</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a thread which has not yet started.</span><br><span class="hljs-comment">     */</span><br>    NEW,(新建)<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a runnable thread.  A thread in the runnable</span><br><span class="hljs-comment">     * state is executing in the Java virtual machine but it may</span><br><span class="hljs-comment">     * be waiting for other resources from the operating system</span><br><span class="hljs-comment">     * such as processor.</span><br><span class="hljs-comment">     */</span><br>    RUNNABLE,（准备就绪）<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a thread blocked waiting for a monitor lock.</span><br><span class="hljs-comment">     * A thread in the blocked state is waiting for a monitor lock</span><br><span class="hljs-comment">     * to enter a synchronized block/method or</span><br><span class="hljs-comment">     * reenter a synchronized block/method after calling</span><br><span class="hljs-comment">     * &#123;<span class="hljs-doctag">@link</span> Object#wait() Object.wait&#125;.</span><br><span class="hljs-comment">     */</span><br>    BLOCKED,（阻塞）<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a waiting thread.</span><br><span class="hljs-comment">     * A thread is in the waiting state due to calling one of the</span><br><span class="hljs-comment">     * following methods:</span><br><span class="hljs-comment">     * &lt;ul&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> Object#wait() Object.wait&#125; with no timeout&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> #join() Thread.join&#125; with no timeout&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> LockSupport#park() LockSupport.park&#125;&lt;/li&gt;</span><br><span class="hljs-comment">     * &lt;/ul&gt;</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * &lt;p&gt;A thread in the waiting state is waiting for another thread to</span><br><span class="hljs-comment">     * perform a particular action.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * For example, a thread that has called &lt;tt&gt;Object.wait()&lt;/tt&gt;</span><br><span class="hljs-comment">     * on an object is waiting for another thread to call</span><br><span class="hljs-comment">     * &lt;tt&gt;Object.notify()&lt;/tt&gt; or &lt;tt&gt;Object.notifyAll()&lt;/tt&gt; on</span><br><span class="hljs-comment">     * that object. A thread that has called &lt;tt&gt;Thread.join()&lt;/tt&gt;</span><br><span class="hljs-comment">     * is waiting for a specified thread to terminate.</span><br><span class="hljs-comment">     */</span><br>    WAITING,（不见不散）<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a waiting thread with a specified waiting time.</span><br><span class="hljs-comment">     * A thread is in the timed waiting state due to calling one of</span><br><span class="hljs-comment">     * the following methods with a specified positive waiting time:</span><br><span class="hljs-comment">     * &lt;ul&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> #sleep Thread.sleep&#125;&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> Object#wait(long) Object.wait&#125; with timeout&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> #join(long) Thread.join&#125; with timeout&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> LockSupport#parkNanos LockSupport.parkNanos&#125;&lt;/li&gt;</span><br><span class="hljs-comment">     *   &lt;li&gt;&#123;<span class="hljs-doctag">@link</span> LockSupport#parkUntil LockSupport.parkUntil&#125;&lt;/li&gt;</span><br><span class="hljs-comment">     * &lt;/ul&gt;</span><br><span class="hljs-comment">     */</span><br>    TIMED_WAITING,（过时不候）<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Thread state for a terminated thread.</span><br><span class="hljs-comment">     * The thread has completed execution.</span><br><span class="hljs-comment">     */</span><br>    TERMINATED;(终结)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h3><p>Monitor(监视器)，也就是我们平时所说的锁</p>
+<p>Monitor其实是一种同步机制，他的义务是保证（同一时间）只有一个线程可以访问被保护的数据和代码。</p>
+<p>JVM中同步是基于进入和退出监视器对象(Monitor,管程对象)来实现的，每个对象实例都会有一个Monitor对象，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">Object o = <span class="hljs-keyword">new</span> Object();<br><span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>    <span class="hljs-keyword">synchronized</span> (o)<br>    &#123;<br><br>    &#125;<br>&#125;,<span class="hljs-string">&quot;t1&quot;</span>).start();<br></code></pre></td></tr></table></figure>
+
+<p>Monitor对象会和Java对象一同创建并销毁，它底层是由C++语言来实现的。</p>
+<h2 id="JUC是什么"><a href="#JUC是什么" class="headerlink" title="JUC是什么"></a>JUC是什么</h2><h3 id="java-util-concurrent在并发编程中使用的工具类"><a href="#java-util-concurrent在并发编程中使用的工具类" class="headerlink" title="java.util.concurrent在并发编程中使用的工具类"></a>java.util.concurrent在并发编程中使用的工具类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">java.util.concurrent    <br>java.util.concurrent.atomic    <br>java.util.concurrent.locks<br></code></pre></td></tr></table></figure>
+
+<h3 id="wait-sleep的区别？"><a href="#wait-sleep的区别？" class="headerlink" title="wait/sleep的区别？"></a>wait/sleep的区别？</h3><p>wait放开手去睡，放开手里的锁<br>sleep握紧手去睡，醒了手里还有锁</p>
+<h3 id="什么是并发？什么是并行？"><a href="#什么是并发？什么是并行？" class="headerlink" title="什么是并发？什么是并行？"></a>什么是并发？什么是并行？</h3><p>并发：同一时刻多个线程在访问同一个资源，多个线程对一个点<br>      例子：小米9今天上午10点，限量抢购<br>            春运抢票<br>            电商秒杀…<br>并行：多项工作一起执行，之后再汇总<br>      例子：泡方便面，电水壶烧水，一边撕调料倒入桶中</p>
+<h3 id="进程-线程回顾"><a href="#进程-线程回顾" class="headerlink" title="进程/线程回顾"></a>进程/线程回顾</h3><h4 id="进程-线程是什么？"><a href="#进程-线程是什么？" class="headerlink" title="进程/线程是什么？"></a>进程/线程是什么？</h4><p>进程：进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。它是操作系统动态执行的基本单元，在传统的操作系统中，进程既是基本的分配单元，也是基本的执行单元。</p>
+<p>线程：通常在一个进程中可以包含若干个线程，当然一个进程中至少有一个线程，不然没有存在的意义。线程可以利用进程所拥有的资源，在引入线程的操作系统中，通常都是把进程作为分配资源的基本单位，而把线程作为独立运行和独立调度的基本单位，由于线程比进程更小，基本上不拥有系统资源，故对它的调度所付出的开销就会小得多，能更高效的提高系统多个程序间并发执行的程度。</p>
+<h4 id="进程-线程例子？"><a href="#进程-线程例子？" class="headerlink" title="进程/线程例子？"></a>进程/线程例子？</h4><p> 使用QQ，查看进程一定有一个QQ.exe的进程，我可以用qq和A文字聊天，和B视频聊天，给C传文件，给D发一段语言，QQ支持录入信息的搜索。</p>
+<p>大四的时候写论文，用word写论文，同时用QQ音乐放音乐，同时用QQ聊天，多个进程。</p>
+<p>word如没有保存，停电关机，再通电后打开word可以恢复之前未保存的文档，word也会检查你的拼写，两个线程：容灾备份，语法检查</p>
+<h2 id="Lock接口"><a href="#Lock接口" class="headerlink" title="Lock接口"></a>Lock接口</h2><h3 id="复习Synchronized"><a href="#复习Synchronized" class="headerlink" title="复习Synchronized"></a>复习Synchronized</h3><h4 id="多线程编程模板上"><a href="#多线程编程模板上" class="headerlink" title="多线程编程模板上"></a>多线程编程模板上</h4><p>1、线程 操作 资源类</p>
+<p>2、高内聚低耦合</p>
+<h4 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h4><p>1、创建资源类</p>
+<p>2、资源类里创建同步方法、同步代码块</p>
+<h4 id="例子卖票程序"><a href="#例子卖票程序" class="headerlink" title="例子卖票程序"></a>例子卖票程序</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ticket</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> number = <span class="hljs-number">50</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sale</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (number &gt; <span class="hljs-number">0</span>) &#123;<br>            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t&quot;</span> + <span class="hljs-string">&quot;卖出第：&quot;</span> + (number--) + <span class="hljs-string">&quot;\t&quot;</span> + <span class="hljs-string">&quot; 还剩下：&quot;</span> + number);<br>            <span class="hljs-keyword">try</span> &#123;<br>                Thread.sleep(<span class="hljs-number">100</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SaleTicketDemo</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>       Ticket ticket = <span class="hljs-keyword">new</span> Ticket();<br>       <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">51</span>; i++) ticket.sale();<br>            &#125;).start();<br>        &#125;<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><h4 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h4><p>Lock implementations provide more extensive locking operations than can be obtained using synchronized methods and statements. They allow more flexible structuring, may have quite different properties, and may support multiple associated Condition objects. </p>
+<p>锁实现提供了比使用同步方法和语句可以获得的更广泛的锁操作。它们允许更灵活的结构，可能具有非常不同的属性，并且可能支持多个关联的条件对象。</p>
+<h4 id="Lock接口的实现"><a href="#Lock接口的实现" class="headerlink" title="Lock接口的实现"></a>Lock接口的实现</h4><p>ReentrantLock可重入锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">X</span> </span>&#123;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ReentrantLock lock = <span class="hljs-keyword">new</span> ReentrantLock();<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">m</span><span class="hljs-params">()</span> </span>&#123;<br>     lock.lock();  <span class="hljs-comment">// block until condition holds</span><br>     <span class="hljs-keyword">try</span> &#123;<br>       <span class="hljs-comment">// ... method body</span><br>     &#125; <span class="hljs-keyword">finally</span> &#123;<br>       lock.unlock()<br>     &#125;<br>   &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="创建线程方式"><a href="#创建线程方式" class="headerlink" title="创建线程方式"></a>创建线程方式</h4><p>1、继承Thread</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SaleTicket</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span></span><br></code></pre></td></tr></table></figure>
+
+<p>java是单继承，资源宝贵，要用接口方式 </p>
+<p>2、Thread(Runnable target) </p>
+<p>3、Thread(Runnable target, String name) </p>
+<h4 id="实现runnable方法"><a href="#实现runnable方法" class="headerlink" title="实现runnable方法"></a>实现runnable方法</h4><p>1、新建类实现runnable接口</p>
+<p>2、匿名内部类</p>
+<p>3、lambda表达式</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.locks.Lock;<br><span class="hljs-keyword">import</span> java.util.concurrent.locks.ReentrantLock;<br> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ticket</span></span>&#123;<br> <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> number=<span class="hljs-number">30</span>;<br> <span class="hljs-keyword">private</span> Lock lock = <span class="hljs-keyword">new</span> ReentrantLock();<br> <br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sale</span><span class="hljs-params">()</span> </span>&#123;<br>   lock.lock();<br>   <span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-keyword">if</span>(number &gt; <span class="hljs-number">0</span>) &#123;<br>     System.out.println(Thread.currentThread().getName()+<span class="hljs-string">&quot;卖出&quot;</span>+(number--)+<span class="hljs-string">&quot;\t 还剩number);</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">   &#125; catch (Exception e) &#123;</span><br><span class="hljs-string">    e.printStackTrace();</span><br><span class="hljs-string">   &#125; finally &#123;</span><br><span class="hljs-string">    lock.unlock();</span><br><span class="hljs-string">   &#125;   </span><br><span class="hljs-string"> &#125;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">                        </span><br><span class="hljs-string">public class SaleTicket </span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string"> public static void main(String[] args)</span><br><span class="hljs-string">   Ticket ticket = new Ticket();</span><br><span class="hljs-string"> new Thread(() -&gt; &#123;for (int i = 1; i &lt; 40; i++)ticket.sale();&#125;, &quot;</span>AA<span class="hljs-string">&quot;).start();</span><br><span class="hljs-string"> new Thread(() -&gt; &#123;for (int i = 1; i &lt; 40; i++)ticket.sale();&#125;, &quot;</span>BB<span class="hljs-string">&quot;).start();</span><br><span class="hljs-string"> new Thread(() -&gt; &#123;for (int i = 1; i &lt; 40; i++)ticket.sale();&#125;, &quot;</span>CC<span class="hljs-string">&quot;).start();</span><br><span class="hljs-string"> </span><br><span class="hljs-string"> &#125;</span><br><span class="hljs-string">&#125;                        </span><br></code></pre></td></tr></table></figure>
+
+<h3 id="多线程8锁案例"><a href="#多线程8锁案例" class="headerlink" title="多线程8锁案例"></a>多线程8锁案例</h3><p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Phone</span></span>&#123;<br> <br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendSMS</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>   System.out.println(<span class="hljs-string">&quot;------sendSMS&quot;</span>);<br> &#125;<br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendEmail</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>   System.out.println(<span class="hljs-string">&quot;------sendEmail&quot;</span>);<br> &#125; <br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getHello</span><span class="hljs-params">()</span> </span>&#123;<br>   System.out.println(<span class="hljs-string">&quot;------getHello&quot;</span>);<br> &#125; <br>&#125;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span>: 8锁</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> 1 标准访问，先打印短信还是邮件</span><br><span class="hljs-comment"> 2 停4秒在短信方法内，先打印短信还是邮件</span><br><span class="hljs-comment"> 3 新增普通的hello方法，是先打短信还是hello</span><br><span class="hljs-comment"> 4 现在有两部手机，先打印短信还是邮件</span><br><span class="hljs-comment"> 5 两个静态同步方法，1部手机，先打印短信还是邮件</span><br><span class="hljs-comment"> 6 两个静态同步方法，2部手机，先打印短信还是邮件</span><br><span class="hljs-comment"> 7 1个静态同步方法,1个普通同步方法，1部手机，先打印短信还是邮件</span><br><span class="hljs-comment"> 8 1个静态同步方法,1个普通同步方法，2部手机，先打印短信还是邮件</span><br><span class="hljs-comment"> * ---------------------------------</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Lock_8</span></span><br><span class="hljs-class"></span>&#123;<br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span><br><span class="hljs-function"> </span>&#123;<br> <br>   Phone phone = <span class="hljs-keyword">new</span> Phone();<br>   Phone phone2 = <span class="hljs-keyword">new</span> Phone();<br>   <br>   <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>     phone.sendSMS();<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>     e.printStackTrace();<br>    &#125;<br>   &#125;, <span class="hljs-string">&quot;AA&quot;</span>).start();<br>   <br>   Thread.sleep(<span class="hljs-number">100</span>);<br>   <br>   <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>     phone.sendEmail();<br>     <span class="hljs-comment">//phone.getHello();</span><br>     <span class="hljs-comment">//phone2.sendEmail();</span><br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>     e.printStackTrace();<br>    &#125;<br>   &#125;, <span class="hljs-string">&quot;BB&quot;</span>).start();<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/***  * 笔记</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *  synchronized是实现同步的基础：Java中的每一个对象都可以作为锁。</span><br><span class="hljs-comment"> *  具体表现为以下3种形式。</span><br><span class="hljs-comment">    作用于实例方法，当前实例加锁，进入同步代码前要获得当前实例的锁；</span><br><span class="hljs-comment">    作用于静态方法，当前类加锁，进去同步代码前要获得当前类对象的锁；</span><br><span class="hljs-comment">    作用于代码块，对括号里配置的对象加锁。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> *  1-2</span><br><span class="hljs-comment"> *  *  一个对象里面如果有多个synchronized方法，某一个时刻内，只要一个线程去调用其中的一个synchronized方法了，</span><br><span class="hljs-comment"> *  *  其它的线程都只能等待，换句话说，某一个时刻内，只能有唯一一个线程去访问这些synchronized方法</span><br><span class="hljs-comment"> *  *  锁的是当前对象this，被锁定后，其它的线程都不能进入到当前对象的其它的synchronized方法</span><br><span class="hljs-comment"> *  3-4</span><br><span class="hljs-comment"> *   *  加个普通方法后发现和同步锁无关</span><br><span class="hljs-comment"> *  *  换成两个对象后，不是同一把锁了，情况立刻变化。</span><br><span class="hljs-comment"> *  5-6</span><br><span class="hljs-comment"> *  都换成静态同步方法后，情况又变化</span><br><span class="hljs-comment"> *  若是普通同步方法，new     this,   具体的一部部手机,所有的普通同步方法用的都是同一把锁——实例对象本身，</span><br><span class="hljs-comment"> *  若是静态同步方法，static  Class ，唯一的一个模板</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *  7-8</span><br><span class="hljs-comment"> *   *  当一个线程试图访问同步代码时它首先必须得到锁，退出或抛出异常时必须释放锁。</span><br><span class="hljs-comment"> *  *</span><br><span class="hljs-comment"> *  *  所有的普通同步方法用的都是同一把锁——实例对象本身，，就是new出来的具体实例对象本身</span><br><span class="hljs-comment"> *  *  也就是说如果一个实例对象的普通同步方法获取锁后，该实例对象的其他普通同步方法必须等待获取锁的方法释放锁后才能获取锁，</span><br><span class="hljs-comment"> *  *  可是别的实例对象的普通同步方法因为跟该实例对象的普通同步方法用的是不同的锁，所以不用等待该实例对象已获取锁的普通</span><br><span class="hljs-comment"> *  *  同步方法释放锁就可以获取他们自己的锁。</span><br><span class="hljs-comment"> *  *</span><br><span class="hljs-comment"> *  *  所有的静态同步方法用的也是同一把锁——类对象本身，就是我们说过的唯一模板Class</span><br><span class="hljs-comment"> *  *  具体实例对象this和唯一模板Class，这两把锁是两个不同的对象，所以静态同步方法与普通同步方法之间是不会有竞态条件的。</span><br><span class="hljs-comment"> *  *  但是一旦一个静态同步方法获取锁后，其他的静态同步方法都必须等待该方法释放锁后才能获取锁</span><br><span class="hljs-comment"> *  */</span><br></code></pre></td></tr></table></figure>
+
+<p>结论</p>
+<p>1、作用于实例方法，当前实例加锁，进入同步代码前要获得当前实例的锁；</p>
+<p>2、作用于代码块，对括号里配置的对象加锁。</p>
+<p>3、作用于静态方法，当前类加锁，进去同步代码前要获得当前类对象的锁；</p>
+<p>注意：阿里手册第七条：能锁区块，就不要锁整个方法体，能用对象锁就不要类锁</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/11/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
