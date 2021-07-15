@@ -18,7 +18,7 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-  <title>GC笔记 - Hexo</title>
+  <title>Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="GC笔记">
+            <span class="h2" id="subtitle" title="">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-07-15 10:00" pubdate>
-        2021年7月15日 上午
+      <time datetime="2021-07-15 03:39" pubdate>
+        2021年7月15日 凌晨
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      160 字
+      1.8k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      19
        分钟
     </span>
   
@@ -225,23 +225,48 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">GC笔记</h1>
+            <h1 style="display: none"></h1>
             
             <div class="markdown-body">
-              <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="一、GC是什么-分代收集算法"><a href="#一、GC是什么-分代收集算法" class="headerlink" title="一、GC是什么(分代收集算法)"></a>一、GC是什么(分代收集算法)</h2><p>频繁收集新生代</p>
+              <h2 id="一、GC是什么-分代收集算法"><a href="#一、GC是什么-分代收集算法" class="headerlink" title="一、GC是什么(分代收集算法)"></a>一、GC是什么(分代收集算法)</h2><p>频繁收集新生代</p>
 <p>较少收集老年代</p>
 <p>基本不动元空间</p>
-<h2 id="二、判断对象是不是垃圾-对象存活判断"><a href="#二、判断对象是不是垃圾-对象存活判断" class="headerlink" title="二、判断对象是不是垃圾(对象存活判断)"></a>二、判断对象是不是垃圾(对象存活判断)</h2><h3 id="1、引用计数"><a href="#1、引用计数" class="headerlink" title="1、引用计数"></a>1、引用计数</h3><p><img src="%5Cimg%5C%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.jpg" srcset="/img/loading.gif" lazyload alt="引用计数"></p>
+<h2 id="二、判断对象是不是垃圾-对象存活判断"><a href="#二、判断对象是不是垃圾-对象存活判断" class="headerlink" title="二、判断对象是不是垃圾(对象存活判断)"></a>二、判断对象是不是垃圾(对象存活判断)</h2><h3 id="1、引用计数"><a href="#1、引用计数" class="headerlink" title="1、引用计数"></a>1、引用计数</h3><p><img src="/img/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0.jpg" srcset="/img/loading.gif" lazyload alt="引用计数"></p>
 <p>循环引用</p>
-<p><img src="%5Cimg%5C%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8.jpg" srcset="/img/loading.gif" lazyload alt="循环引用"></p>
-<h3 id="2、根可达-GcRoots可达性分析算法"><a href="#2、根可达-GcRoots可达性分析算法" class="headerlink" title="2、根可达 GcRoots可达性分析算法"></a>2、根可达 GcRoots可达性分析算法</h3><h4 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h4><p><img src="%5Cimg%5C%E8%B7%9F%E5%8F%AF%E8%BE%BE.jpg" srcset="/img/loading.gif" lazyload alt="跟可达"></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p><img src="%5Cimg%5C%E8%B7%9F%E5%8F%AF%E8%BE%BE%E5%88%86%E6%9E%90.jpg" srcset="/img/loading.gif" lazyload alt="跟可达分析"></p>
+<p><img src="/img/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8.jpg" srcset="/img/loading.gif" lazyload alt="循环引用"></p>
+<h3 id="2、根可达-GcRoots可达性分析算法"><a href="#2、根可达-GcRoots可达性分析算法" class="headerlink" title="2、根可达 GcRoots可达性分析算法"></a>2、根可达 GcRoots可达性分析算法</h3><h4 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h4><p><img src="/img/%E8%B7%9F%E5%8F%AF%E8%BE%BE.jpg" srcset="/img/loading.gif" lazyload alt="跟可达"></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p><img src="/img/%E8%B7%9F%E5%8F%AF%E8%BE%BE%E5%88%86%E6%9E%90.jpg" srcset="/img/loading.gif" lazyload alt="跟可达分析"></p>
 <h4 id="Java中可以作为GCRoots的对象"><a href="#Java中可以作为GCRoots的对象" class="headerlink" title="Java中可以作为GCRoots的对象"></a>Java中可以作为GCRoots的对象</h4><p>1、虚拟机栈（栈帧中的局部变量区，也叫做局部变量表）中引用的对象</p>
 <p>2、方法区中的类静态属性引用的对象</p>
 <p>3、方法区中常量引用的对象</p>
 <p>4、本地方法栈中JNI（Native方法）引用的对象</p>
-<p><img src="img%5Ccase.jpg" srcset="/img/loading.gif" lazyload alt="case"></p>
-<h2 id="三、GC三大算法"><a href="#三、GC三大算法" class="headerlink" title="三、GC三大算法"></a>三、GC三大算法</h2>
+<p><img src="/img/case.jpg" srcset="/img/loading.gif" lazyload alt="case"></p>
+<h2 id="三、GC三大算法"><a href="#三、GC三大算法" class="headerlink" title="三、GC三大算法"></a>三、GC三大算法</h2><h3 id="1、GC算法总体概述"><a href="#1、GC算法总体概述" class="headerlink" title="1、GC算法总体概述"></a>1、GC算法总体概述</h3><blockquote>
+<p>JVM在进行GC时，并非每次都对上面三个内存区域一起回收的，大部分时候回收的都是指新生代。<br>因此GC按照回收的区域又分了两种类型，一种是普通GC（minor GC），一种是全局GC（major GC or Full GC）</p>
+<p>Minor GC和Full GC的区别<br>　　普通GC（minor GC）：只针对新生代区域的GC,指发生在新生代的垃圾收集动作，<br>因为大多数Java对象存活率都不高，所以Minor GC非常频繁，一般回收速度也比较快。 </p>
+<p>　　全局GC（major GC or Full GC）：指发生在老年代的垃圾收集动作，出现了Major GC，<br>经常会伴随至少一次的Minor GC（但并不是绝对的）。Full GC的速度一般要比Minor GC慢上10倍以上 </p>
+</blockquote>
+<h4 id="复制算法-Copying"><a href="#复制算法-Copying" class="headerlink" title="复制算法(Copying)"></a>复制算法(Copying)</h4><p>年轻代中使用的是Minor GC，这种GC算法采用的是复制算法(Copying)</p>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
+<p>Minor GC会把Eden中的所有活的对象都移到Survivor区域中，如果Survivor区中放不下，那么剩下的活的对象就被移到Old  generation中，也即一旦收集后，Eden是就变成空的了。<br>当对象在 Eden出生后，在经过一次 Minor GC 后，如果对象还存活，并且能够被另外一块 Survivor 区域所容纳( 上面已经假设为 from 区域，这里应为 to 区域，即 to 区域有足够的内存空间来存储 Eden 和 from 区域中存活的对象 )，则使用复制算法将这些仍然还存活的对象复制到另外一块 Survivor 区域 ( 即 to 区域 ) 中，然后清理所使用过的 Eden 以及 Survivor 区域 ( 即 from 区域 )，并且将这些对象的年龄设置为1，以后对象在 Survivor 区每熬过一次 Minor GC，就将对象的年龄 + 1，当对象的年龄达到某个值时 ( 默认是 15 岁，通过-XX:MaxTenuringThreshold 来设定参数，java8起64位虚拟机不能超过15)，这些对象就会成为老年代。</p>
+<p>-XX:MaxTenuringThreshold — 设置对象在新生代中存活的次数<br>GC年龄采用4位bit存储，最大为15，例如MaxTenuringThreshold参数默认值就是15</p>
+</blockquote>
+<h5 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h5><p>年轻代中的GC,主要是复制算法（Copying）</p>
+<p> HotSpot JVM把年轻代分为了三部分：1个Eden区和2个Survivor区（分别叫from和to）。默认比例为8:1:1,一般情况下，新创建的对象都会被分配到Eden区(一些大对象特殊处理),这些对象经过第一次Minor GC后，如果仍然存活，将会被移到Survivor区。对象在Survivor区中每熬过一次Minor GC，年龄就会增加1岁，当它的年龄增加到一定程度时，就会被移动到年老代中。因为年轻代中的对象基本都是朝生夕死的(90%以上)，所以在年轻代的垃圾回收算法使用的是复制算法，复制算法的基本思想就是将内存分为两块，每次只用其中一块，当这一块内存用完，就将还活着的对象复制到另外一块上面。复制算法不会产生内存碎片。</p>
+<p><img src="/img/%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95.jpg" srcset="/img/loading.gif" lazyload alt="复制算法"></p>
+<h5 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h5><p>复制算法它的缺点也是相当明显的。<br>　　1、它浪费了to区的内存。<br>　　2、如果对象的存活率很高，我们可以极端一点，假设是100%存活，那么我们需要将所有对象都复制一遍，并将所有引用地址重置一遍。复制这一工作所花费的时间，在对象存活率达到一定程度时，将会变的不可忽视。 所以从以上描述不难看出，复制算法要想使用，最起码对象的存活率要非常低才行，而且最重要的是，我们必须要克服to区的内存浪费。</p>
+<h3 id="2、标记清除-Mark-Sweep"><a href="#2、标记清除-Mark-Sweep" class="headerlink" title="2、标记清除(Mark-Sweep)"></a>2、标记清除(Mark-Sweep)</h3><p>老年代一般是由标记清除或者是标记清除与标记整理的混合实现</p>
+<h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p><img src="/img/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4.jpg" srcset="/img/loading.gif" lazyload alt="标记清除"></p>
+<p><img src="/img/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A42.jpg" srcset="/img/loading.gif" lazyload alt="标记清除2"></p>
+<h5 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h5><p>1、首先，它的缺点就是效率比较低（递归与全堆对象遍历），而且在进行GC的时候，需要停止应用程序，这会导致用户体验非常差劲<br>2、其次，主要的缺点则是这种方式清理出来的空闲内存是不连续的，这点不难理解，我们的死亡对象都是随即的出现在内存的各个角落的，现在把它们清除之后，内存的布局自然会乱七八糟。而为了应付这一点，JVM就不得不维持一个内存的空闲列表，这又是一种开销。而且在分配数组对象的时候，寻找连续的内存空间会不太好找。 </p>
+<h3 id="3-、标记压缩-Mark-Compact"><a href="#3-、标记压缩-Mark-Compact" class="headerlink" title="3 、标记压缩(Mark-Compact)"></a>3 、标记压缩(Mark-Compact)</h3><p>老年代一般是由标记清除或者是标记清除与标记整理的混合实现</p>
+<h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><p><img src="/img/%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9.jpg" srcset="/img/loading.gif" lazyload alt="标记压缩"></p>
+<p>在整理压缩阶段，不再对标记的对像做回收，而是通过所有存活对像都向一端移动，然后直接清除边界以外的内存。<br>可以看到，标记的存活对象将会被整理，按照内存地址依次排列，而未被标记的内存会被清理掉。如此一来，当我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可，这比维护一个空闲列表显然少了许多开销。 </p>
+<h4 id="劣势-2"><a href="#劣势-2" class="headerlink" title="劣势"></a>劣势</h4><p>标记/整理算法唯一的缺点就是效率也不高，不仅要标记所有存活对象，还要整理所有存活对象的引用地址。<br>从效率上来说，标记/整理算法要低于复制算法。</p>
+<h4 id="标记清除压缩-Mark-Sweep-Compact"><a href="#标记清除压缩-Mark-Sweep-Compact" class="headerlink" title="标记清除压缩(Mark-Sweep-Compact)"></a>标记清除压缩(Mark-Sweep-Compact)</h4><p><img src="/img/%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E5%8E%8B%E7%BC%A9.jpg" srcset="/img/loading.gif" lazyload alt="标记清除压缩"></p>
+<h2 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h2><p>内存效率：复制算法&gt;标记清除算法&gt;标记整理算法（此处的效率只是简单的对比时间复杂度，实际情况不一定如此）。<br>内存整齐度：复制算法=标记整理算法&gt;标记清除算法。<br>内存利用率：标记整理算法=标记清除算法&gt;复制算法。 </p>
+<p>可以看出，效率上来说，复制算法是当之无愧的老大，但是却浪费了太多内存，而为了尽量兼顾上面所提到的三个指标，标记/整理算法相对来说更平滑一些，但效率上依然不尽如人意，它比复制算法多了一个标记的阶段，又比标记/清除多了一个整理内存的过程</p>
+
             </div>
             <hr>
             <div>
@@ -265,7 +290,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/07/14/jvm/">
+                      <a href="/2021/07/15/jvm/">
                         <span class="hidden-mobile">JVM</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
