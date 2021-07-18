@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>Docker基本命令 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Docker基本命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-10 10:00" pubdate>
+        2021年7月10日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Docker基本命令</h1>
+            
+            <div class="markdown-body">
+              <h2 id="一、Docker安装步骤"><a href="#一、Docker安装步骤" class="headerlink" title="一、Docker安装步骤"></a>一、Docker安装步骤</h2><h3 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>docs.docker.com<span class="hljs-regexp">/engine/i</span>nstall<span class="hljs-regexp">/centos/</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><h4 id="1、中文手册"><a href="#1、中文手册" class="headerlink" title="1、中文手册"></a>1、中文手册</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>docs.docker-cn.com<span class="hljs-regexp">/engine/i</span>nstallation<span class="hljs-regexp">/linux/</span>docker-ce<span class="hljs-regexp">/centos/</span><span class="hljs-comment">#prerequisites</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2、确定你是CentOS7及以上版本"><a href="#2、确定你是CentOS7及以上版本" class="headerlink" title="2、确定你是CentOS7及以上版本"></a>2、确定你是CentOS7及以上版本</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/etc/</span>redhat-release<br></code></pre></td></tr></table></figure>
+
+<h4 id="3、yum安装gcc相关"><a href="#3、yum安装gcc相关" class="headerlink" title="3、yum安装gcc相关"></a>3、yum安装gcc相关</h4><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum -y <span class="hljs-keyword">install</span> gcc<br>yum -y <span class="hljs-keyword">install</span> gcc-c++<br></code></pre></td></tr></table></figure>
+
+<h4 id="4、卸载旧版本"><a href="#4、卸载旧版本" class="headerlink" title="4、卸载旧版本"></a>4、卸载旧版本</h4><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs livescript">$ sudo yum remove docker <span class="hljs-string">\</span><br>                  docker-client <span class="hljs-string">\</span><br>                  docker-client-latest <span class="hljs-string">\</span><br>                  docker-common <span class="hljs-string">\</span><br>                  docker-latest <span class="hljs-string">\</span><br>                  docker-latest-logrotate <span class="hljs-string">\</span><br>                  docker-logrotate <span class="hljs-string">\</span><br>                  docker-engine<br></code></pre></td></tr></table></figure>
+
+<h4 id="5、安装需要的软件包"><a href="#5、安装需要的软件包" class="headerlink" title="5、安装需要的软件包"></a>5、安装需要的软件包</h4><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">yum</span> install -y yum-utils device-mapper-persistent-<span class="hljs-class"><span class="hljs-keyword">data</span> lvm2</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="6、设置stable镜像仓库-推荐使用阿里云"><a href="#6、设置stable镜像仓库-推荐使用阿里云" class="headerlink" title="6、设置stable镜像仓库(推荐使用阿里云)"></a>6、设置stable镜像仓库(推荐使用阿里云)</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum-config-manager --add-repo http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/docker-ce/</span>linux<span class="hljs-regexp">/centos/</span>docker-ce.repo<br></code></pre></td></tr></table></figure>
+
+<h4 id="7、更新yum软件包索引"><a href="#7、更新yum软件包索引" class="headerlink" title="7、更新yum软件包索引"></a>7、更新yum软件包索引</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">yum makecache fast</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="8、安装DOCKER-CE"><a href="#8、安装DOCKER-CE" class="headerlink" title="8、安装DOCKER CE"></a>8、安装DOCKER CE</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">yum -<span class="hljs-keyword">y</span> install docker-<span class="hljs-keyword">ce</span> docker-<span class="hljs-keyword">ce</span>-cli containerd.io<br></code></pre></td></tr></table></figure>
+
+<h4 id="9、启动docker"><a href="#9、启动docker" class="headerlink" title="9、启动docker"></a>9、启动docker</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">systemctl <span class="hljs-literal">start</span> docker<br></code></pre></td></tr></table></figure>
+
+<h4 id="10、测试"><a href="#10、测试" class="headerlink" title="10、测试"></a>10、测试</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker <span class="hljs-built_in">version</span><br>docker <span class="hljs-built_in">run</span> hello-world<br></code></pre></td></tr></table></figure>
+
+<h4 id="11、卸载"><a href="#11、卸载" class="headerlink" title="11、卸载"></a>11、卸载</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim">systemctl <span class="hljs-keyword">stop</span> docker <br>yum -<span class="hljs-keyword">y</span> <span class="hljs-built_in">remove</span> docker-<span class="hljs-keyword">ce</span><br>rm -rf /var/lib/docker<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、阿里云镜像加速"><a href="#二、阿里云镜像加速" class="headerlink" title="二、阿里云镜像加速"></a>二、阿里云镜像加速</h2><h3 id="阿里云官网"><a href="#阿里云官网" class="headerlink" title="阿里云官网"></a>阿里云官网</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/promotion.aliyun.com/ntms</span><span class="hljs-regexp">/act/kubernetes</span>.html<br>控制台-&gt;容器镜像服务-&gt;镜像工具-&gt;镜像加速器<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">sudo tee <span class="hljs-regexp">/etc/</span>docker/daemon.json &lt;&lt;-<span class="hljs-string">&#x27;EOF&#x27;</span><br>&#123;<br><span class="hljs-string">&quot;registry-mirrors&quot;</span>: [<span class="hljs-string">&quot;https://9m356yy6.mirror.aliyuncs.com&quot;</span>]<br>&#125;<br>EOF<br>sudo systemctl daemon-reload<br>sudo systemctl restart docker<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、Docker常用命令"><a href="#三、Docker常用命令" class="headerlink" title="三、Docker常用命令"></a>三、Docker常用命令</h2><h3 id="1、帮助启动类命令"><a href="#1、帮助启动类命令" class="headerlink" title="1、帮助启动类命令"></a>1、帮助启动类命令</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">启动docker： systemctl <span class="hljs-keyword">start</span> docker<br>停止docker： systemctl stop docker<br>重启docker： systemctl <span class="hljs-keyword">restart</span> docker<br>查看docker状态： systemctl status docker<br>开机启动： systemctl <span class="hljs-keyword">enable</span> docker<br>查看docker概要信息： docker <span class="hljs-keyword">info</span><br>查看docker帮助文档： docker <span class="hljs-comment">--help</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2、镜像命令"><a href="#2、镜像命令" class="headerlink" title="2、镜像命令"></a>2、镜像命令</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker images  列出本地主机上的镜像<br>docker search 某个XXX镜像名字<br>docker pull 某个XXX镜像名字<br>docker rmi 某个XXX镜像名字ID<br>	docker rmi  -f 镜像ID<br>	docker rmi -f 镜像名<span class="hljs-number">1</span>:<span class="hljs-keyword">TAG</span> <span class="hljs-title">镜像名2</span>:<span class="hljs-keyword">TAG</span> <br>	<span class="hljs-title">docker</span> rmi -f $(docker images -qa)    <br></code></pre></td></tr></table></figure>
+
+<h3 id="3、容器命令"><a href="#3、容器命令" class="headerlink" title="3、容器命令"></a>3、容器命令</h3><h4 id="新建-启动容器"><a href="#新建-启动容器" class="headerlink" title="新建+启动容器"></a>新建+启动容器</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs awk"> docker run [OPTIONS] IMAGE [COMMAND] [ARG...]<br> OPTIONS说明（常用）：有些是一个减号，有些是两个减号<br> <br>--name=<span class="hljs-string">&quot;容器新名字&quot;</span>: 为容器指定一个名称；<br>-d: 后台运行容器，并返回容器ID，也即启动守护式容器；<br> <br>-i：以交互模式运行容器，通常与 -t 同时使用；<br>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br> <br>-P: 随机端口映射；大写P<br>-p: 指定端口映射，有以下四种格式 小写p<br>      ip:hostPort:containerPort<br>      ip::containerPort<br>      hostPort:containerPort<br>      containerPort<br>      <br>例:      <br><span class="hljs-comment">#使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。</span><br>docker run -it centos <span class="hljs-regexp">/bin/</span>bash <br> <br>参数说明：<br>-i: 交互式操作。<br>-t: 终端。<br>centos : centos 镜像。<br><span class="hljs-regexp">/bin/</span>bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 <span class="hljs-regexp">/bin/</span>bash。<br>要退出终端，直接输入 <span class="hljs-keyword">exit</span>:<br></code></pre></td></tr></table></figure>
+
+<h4 id="列出当前所有正在运行的容器"><a href="#列出当前所有正在运行的容器" class="headerlink" title="列出当前所有正在运行的容器"></a>列出当前所有正在运行的容器</h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs diff">docker ps [OPTIONS]<br>OPTIONS说明（常用）：<br><span class="hljs-deletion">-a :列出当前所有正在运行的容器+历史上运行过的</span><br><span class="hljs-deletion">-l :显示最近创建的容器。</span><br><span class="hljs-deletion">-n：显示最近n个创建的容器。</span><br><span class="hljs-deletion">-q :静默模式，只显示容器编号。</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="退出容器"><a href="#退出容器" class="headerlink" title="退出容器"></a>退出容器</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">exit</span>  容器停止退出<br>ctrl+P+Q  容器不停止退出<br></code></pre></td></tr></table></figure>
+
+<h4 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a>启动已停止运行的容器</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker <span class="hljs-literal">start</span> 容器ID或者容器名<br></code></pre></td></tr></table></figure>
+
+<h4 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">docker <span class="hljs-built_in">restart</span> 容器ID或者容器名<br></code></pre></td></tr></table></figure>
+
+<h4 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker stop 容器ID或者容器名<br></code></pre></td></tr></table></figure>
+
+<h4 id="强制停止容器"><a href="#强制停止容器" class="headerlink" title="强制停止容器"></a>强制停止容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">kill</span> 容器ID或者容器名<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除已停止的容器"><a href="#删除已停止的容器" class="headerlink" title="删除已停止的容器"></a>删除已停止的容器</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker <span class="hljs-built_in">rm</span> 容器ID<br>一次性删除多个容器<br>docker <span class="hljs-built_in">rm</span> <span class="hljs-operator">-f</span> <span class="hljs-variable">$</span>(docker <span class="hljs-built_in">ps</span> <span class="hljs-literal">-a</span> <span class="hljs-literal">-q</span>)	<br>docker <span class="hljs-built_in">ps</span> <span class="hljs-literal">-a</span> <span class="hljs-literal">-q</span> | xargs docker <span class="hljs-built_in">rm</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="重要"><a href="#重要" class="headerlink" title="重要"></a>重要</h4><h5 id="启动守护式容器"><a href="#启动守护式容器" class="headerlink" title="启动守护式容器"></a>启动守护式容器</h5><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">在大部分的场景下，我们希望 docker 的服务是在后台运行的，我们可以过 -d 指定容器的运行模式。<br>docker <span class="hljs-builtin-name">run</span> -d 容器名<br>例：<br>redis case  前台   docker <span class="hljs-builtin-name">run</span> -it redis:6.0.8<br>            后台   docker <span class="hljs-builtin-name">run</span> -d redis:6.0.8   /  docker exec -it 容器ID /bin/bash<br></code></pre></td></tr></table></figure>
+
+<h5 id="查看容器日志"><a href="#查看容器日志" class="headerlink" title="查看容器日志"></a>查看容器日志</h5><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs haml">docker logs -f -t --tail 容器ID<br>   -<span class="ruby">t 是加入时间戳</span><br><span class="ruby"></span>   -<span class="ruby">f 跟随最新的日志打印</span><br><span class="ruby"></span>   -<span class="ruby">-tail 数字 显示最后多少条</span><br><span class="ruby"></span>查看容器内运行的进程  docker top 容器ID<br>查看容器内部细节  docker inspect 容器ID<br></code></pre></td></tr></table></figure>
+
+<h5 id="进入正在运行的容器并以命令行交互"><a href="#进入正在运行的容器并以命令行交互" class="headerlink" title="进入正在运行的容器并以命令行交互"></a>进入正在运行的容器并以命令行交互</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker exec -it 容器ID bashShell<br>重新进入  docker attach 容器ID<br><br>attach和exec 区别<br>attach 直接进入容器启动命令的终端，不会启动新的进程<br>用<span class="hljs-keyword">exit</span>退出，会导致容器的停止。<br><br>exec 是在容器中打开新的终端，并且可以启动新的进程<br>用<span class="hljs-keyword">exit</span>退出，不会导致容器的停止。<br><br>推荐使用 docker exec 命令，因为此退出容器终端，不会导致容器的停止。<br></code></pre></td></tr></table></figure>
+
+<h5 id="从容器内拷贝文件到主机上"><a href="#从容器内拷贝文件到主机上" class="headerlink" title="从容器内拷贝文件到主机上"></a>从容器内拷贝文件到主机上</h5><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">docker</span> <span class="hljs-meta">cp</span>  容器ID:容器内路径 目的主机路径 <br></code></pre></td></tr></table></figure>
+
+<h2 id="四、Docker-镜像"><a href="#四、Docker-镜像" class="headerlink" title="四、Docker 镜像"></a>四、Docker 镜像</h2><h3 id="Docker镜像commit操作"><a href="#Docker镜像commit操作" class="headerlink" title="Docker镜像commit操作"></a>Docker镜像commit操作</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker commit <span class="hljs-attribute">-m</span>=“提交的描述信息” <span class="hljs-attribute">-a</span>=“作者” 容器ID 要创建的目标镜像名:[标签名]<br></code></pre></td></tr></table></figure>
+
+<h2 id="五、本地镜像发布阿里云"><a href="#五、本地镜像发布阿里云" class="headerlink" title="五、本地镜像发布阿里云"></a>五、本地镜像发布阿里云</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">控制台-&gt;容器镜像服务-&gt;实例子列表-&gt;创建实例-&gt;创建命名空间-&gt;创建仓库<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-登录阿里云Docker-Registry"><a href="#1-登录阿里云Docker-Registry" class="headerlink" title="1. 登录阿里云Docker Registry"></a>1. 登录阿里云Docker Registry</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">$ docker <span class="hljs-keyword">login</span> <span class="hljs-comment">--username=almighty咔咔 registry.cn-hangzhou.aliyuncs.com</span><br></code></pre></td></tr></table></figure>
+
+<p>用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。</p>
+<p>您可以在访问凭证页面修改凭证密码。</p>
+<h3 id="2-从Registry中拉取镜像"><a href="#2-从Registry中拉取镜像" class="headerlink" title="2. 从Registry中拉取镜像"></a>2. 从Registry中拉取镜像</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">$ docker pull registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com/docker_play/mytomcat:<span class="hljs-selector-attr">[镜像版本号]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-将镜像推送到Registry"><a href="#3-将镜像推送到Registry" class="headerlink" title="3. 将镜像推送到Registry"></a>3. 将镜像推送到Registry</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">$ docker login --username=almighty咔咔 registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com$ docker tag <span class="hljs-selector-attr">[ImageId]</span> registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com/docker_play/mytomcat:<span class="hljs-selector-attr">[镜像版本号]</span>$ docker push registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com/docker_play/mytomcat:<span class="hljs-selector-attr">[镜像版本号]</span><br></code></pre></td></tr></table></figure>
+
+<p>请根据实际镜像信息替换示例中的[ImageId]和[镜像版本号]参数。</p>
+<h3 id="4-选择合适的镜像仓库地址"><a href="#4-选择合适的镜像仓库地址" class="headerlink" title="4. 选择合适的镜像仓库地址"></a>4. 选择合适的镜像仓库地址</h3><p>从ECS推送镜像时，可以选择使用镜像仓库内网地址。推送速度将得到提升并且将不会损耗您的公网流量。</p>
+<p>如果您使用的机器位于VPC网络，请使用 registry-vpc.cn-hangzhou.aliyuncs.com 作为Registry的域名登录。</p>
+<h3 id="5-示例"><a href="#5-示例" class="headerlink" title="5. 示例"></a>5. 示例</h3><p>使用”docker tag”命令重命名镜像，并将它通过专有网络地址推送至Registry。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">$ docker images<br>REPOSITORY                            <span class="hljs-keyword">TAG</span>            <span class="hljs-title">IMAGE</span> ID            CREATED             VIRTUAL SIZE registry.aliyuncs.com/acs/agent       <span class="hljs-number">0.7</span>-dfb6816    <span class="hljs-number">37</span>bb9c63c8b2        <span class="hljs-number">7</span> days ago          <span class="hljs-number">37.89</span> MB<br>$ docker <span class="hljs-keyword">tag</span> <span class="hljs-title">37bb9c63c8b2</span> registry-vpc.cn-hangzhou.aliyuncs.com/acs/agent:<span class="hljs-number">0.7</span>-dfb6816<br></code></pre></td></tr></table></figure>
+
+<p>使用 “docker push” 命令将该镜像推送至远程。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">$ docker <span class="hljs-keyword">push</span> registry-vpc.cn-hangzhou.aliyuncs.com<span class="hljs-regexp">/acs/</span>agent:<span class="hljs-number">0.7</span>-dfb6816<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/11/hello-world/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
