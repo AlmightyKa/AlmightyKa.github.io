@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      3k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20
+      38
        分钟
     </span>
   
@@ -264,7 +264,7 @@
 
 <h4 id="列出当前所有正在运行的容器"><a href="#列出当前所有正在运行的容器" class="headerlink" title="列出当前所有正在运行的容器"></a>列出当前所有正在运行的容器</h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs diff">docker ps [OPTIONS]<br>OPTIONS说明（常用）：<br><span class="hljs-deletion">-a :列出当前所有正在运行的容器+历史上运行过的</span><br><span class="hljs-deletion">-l :显示最近创建的容器。</span><br><span class="hljs-deletion">-n：显示最近n个创建的容器。</span><br><span class="hljs-deletion">-q :静默模式，只显示容器编号。</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="退出容器"><a href="#退出容器" class="headerlink" title="退出容器"></a>退出容器</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">exit</span>  容器停止退出<br>ctrl+P+Q  容器不停止退出<br></code></pre></td></tr></table></figure>
+<h4 id="退出容器"><a href="#退出容器" class="headerlink" title="退出容器"></a>退出容器</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">exit</span>  容器停止退出(第一次退出会关闭容器，如果用exec执行过第二次不会)<br>ctrl+P+Q  容器不停止退出<br></code></pre></td></tr></table></figure>
 
 <h4 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a>启动已停止运行的容器</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker <span class="hljs-literal">start</span> 容器ID或者容器名<br></code></pre></td></tr></table></figure>
 
@@ -304,6 +304,76 @@
 
 <p>使用 “docker push” 命令将该镜像推送至远程。</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">$ docker <span class="hljs-keyword">push</span> registry-vpc.cn-hangzhou.aliyuncs.com<span class="hljs-regexp">/acs/</span>agent:<span class="hljs-number">0.7</span>-dfb6816<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、Docker容器数据卷"><a href="#六、Docker容器数据卷" class="headerlink" title="六、Docker容器数据卷"></a>六、Docker容器数据卷</h2><p>类似我们Redis里面的rdb和aof文件</p>
+<p><strong><em>docker内的数据保存进宿主机的磁盘中</em>容器的持久化  共享数据</strong></p>
+<h3 id="1、容器内添加"><a href="#1、容器内添加" class="headerlink" title="1、容器内添加"></a>1、容器内添加</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker <span class="hljs-builtin-name">run</span> -it <span class="hljs-attribute">--privileged</span>=<span class="hljs-literal">true</span> -v /宿主机绝对路径目录:/容器内目录      镜像名<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、查看数据卷是否挂载成功"><a href="#2、查看数据卷是否挂载成功" class="headerlink" title="2、查看数据卷是否挂载成功"></a>2、查看数据卷是否挂载成功</h3><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs 1c">docker inspect 容器ID<br><br>/* <span class="hljs-string">&quot;Mounts&quot;</span>[<br>	&#123;<br>	<span class="hljs-string">&quot;Source&quot;</span>:<span class="hljs-string">&quot;/mytest&quot;</span><br>	<span class="hljs-string">&quot;Destination&quot;</span>: <span class="hljs-string">&quot;/tmp&quot;</span><br>	&#125;<br>] */ <br></code></pre></td></tr></table></figure>
+
+<h3 id="3、容器和宿主机之间数据共享"><a href="#3、容器和宿主机之间数据共享" class="headerlink" title="3、容器和宿主机之间数据共享"></a>3、容器和宿主机之间数据共享</h3><p>1 、docker修改，主机同步获得<br>2 、主机修改，docker同步获得<br>3 、docker容器stop，主机修改，docker容器重启看数据是否同步。</p>
+<p>类似vue的双向绑定</p>
+<h3 id="4、备注容器卷记得加入–privileged-true"><a href="#4、备注容器卷记得加入–privileged-true" class="headerlink" title="4、备注容器卷记得加入–privileged=true"></a>4、备注容器卷记得加入–privileged=true</h3><p>Docker挂载主机目录Docker访问出现cannot open directory .: Permission denied<br>解决办法：在挂载目录后多加一个–privileged=true参数即可</p>
+<h2 id="七、DockerFile解析"><a href="#七、DockerFile解析" class="headerlink" title="七、DockerFile解析"></a>七、DockerFile解析</h2><p>Dockerfile是用来构建Docker镜像的构建文件，是由一系列命令和参数构成的脚本。</p>
+<h3 id="1、构建三步骤"><a href="#1、构建三步骤" class="headerlink" title="1、构建三步骤"></a>1、构建三步骤</h3><p>1、编写Dockerfile文件</p>
+<p>2、docker build</p>
+<p>3、docker run</p>
+<h3 id="2、DockerFile构建过程解析"><a href="#2、DockerFile构建过程解析" class="headerlink" title="2、DockerFile构建过程解析"></a>2、DockerFile构建过程解析</h3><h4 id="Dockerfile内容基础知识"><a href="#Dockerfile内容基础知识" class="headerlink" title="Dockerfile内容基础知识"></a>Dockerfile内容基础知识</h4><p>1、每条保留字指令都必须为大写字母且后面要跟随至少一个参数</p>
+<p>2、指令按照从上到下，顺序执行</p>
+<p>3、#表示注释</p>
+<p>4、每条指令都会创建一个新的镜像层，并对镜像进行提交</p>
+<h4 id="Docker执行Dockerfile的大致流程"><a href="#Docker执行Dockerfile的大致流程" class="headerlink" title="Docker执行Dockerfile的大致流程"></a>Docker执行Dockerfile的大致流程</h4><p>1、docker从基础镜像运行一个容器</p>
+<p>2、执行一条指令并对容器作出修改</p>
+<p>3、执行类似docker commit的操作提交一个新的镜像层</p>
+<p>4、docker再基于刚提交的镜像运行一个新容器</p>
+<p>5、执行dockerfile中的下一条指令直到所有指令都执行完成</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，</p>
+<ul>
+<li> Dockerfile是软件的原材料</li>
+<li> Docker镜像是软件的交付品</li>
+<li> Docker容器则可以认为是软件的运行态。<br>Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及部署与运维，三者缺一不可，合力充当Docker体系的基石。</li>
+</ul>
+<p><img src="/img/dockerfile1.jpg" srcset="/img/loading.gif" lazyload alt="dockerfile1"></p>
+<p>1、 Dockerfile，需要定义一个Dockerfile，Dockerfile定义了进程需要的一切东西。Dockerfile涉及的内容包括执行代码或者是文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程和内核进程(当应用进程需要和系统服务和内核进程打交道，这时需要考虑如何设计namespace的权限控制)等等;</p>
+<p>2 、Docker镜像，在用Dockerfile定义一个文件之后，docker build时会产生一个Docker镜像，当运行 Docker镜像时会真正开始提供服务;</p>
+<p>3 、Docker容器，容器是直接提供服务的。</p>
+<h3 id="3、DockerFile常用保留字指令"><a href="#3、DockerFile常用保留字指令" class="headerlink" title="3、DockerFile常用保留字指令"></a>3、DockerFile常用保留字指令</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> 基础镜像，当前新镜像是基于哪个镜像的<br><br><span class="hljs-keyword">MAINTAINER</span> 镜像维护者的姓名和邮箱地址<br><br><span class="hljs-keyword">RUN</span><span class="bash"> 容器构建时需要运行的命令</span><br><br><span class="hljs-keyword">EXPOSE</span> 当前容器对外暴露出的端口<br><br><span class="hljs-keyword">WORKDIR</span><span class="bash"> 指定在创建容器后，终端默认登陆的进来工作目录，一个落脚点</span><br><br><span class="hljs-keyword">ENV</span> 用来在构建镜像过程中设置环境变量<br>	<span class="hljs-keyword">ENV</span> MY_PATH /usr/mytest<br>	这个环境变量可以在后续的任何<span class="hljs-keyword">RUN</span><span class="bash">指令中使用，这就如同在命	 令前面指定了环境变量前缀一样；</span><br>	也可以在其它指令中直接使用这些环境变量<br>	比如：<span class="hljs-keyword">WORKDIR</span><span class="bash"> <span class="hljs-variable">$MY_PATH</span></span><br>	<br><span class="hljs-keyword">ADD</span><span class="bash"> 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包</span><br><br><span class="hljs-keyword">COPY</span><span class="bash"> 类似ADD，拷贝文件和目录到镜像中。</span><br>将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置<br>	<span class="hljs-keyword">COPY</span><span class="bash"> src dest</span><br>	<span class="hljs-keyword">COPY</span><span class="bash"> [<span class="hljs-string">&quot;src&quot;</span>, <span class="hljs-string">&quot;dest&quot;</span>]</span><br>	<br><span class="hljs-keyword">VOLUME</span><span class="bash"> 容器数据卷，用于数据保存和持久化工作</span><br><br><span class="hljs-keyword">CMD</span><span class="bash"> 指定一个容器启动时要运行的命令</span><br>	Dockerfile 中可以有多个 <span class="hljs-keyword">CMD</span><span class="bash"> 指令，但只有最后一个生效，	   CMD 会被 docker run 之后的参数替换</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/dockerfile2.jpg" srcset="/img/loading.gif" lazyload alt="dockerfile2"></p>
+<h3 id="4、案例"><a href="#4、案例" class="headerlink" title="4、案例"></a>4、案例</h3><h4 id="自定义镜像mycentos"><a href="#自定义镜像mycentos" class="headerlink" title="自定义镜像mycentos"></a>自定义镜像mycentos</h4><p>自定义mycentos目的使我们自己的镜像具备如下：<br>         登陆后的默认路径<br>         vim编辑器<br>         查看网络配置ifconfig支持</p>
+<h5 id="1、准备编写DockerFile文件"><a href="#1、准备编写DockerFile文件" class="headerlink" title="1、准备编写DockerFile文件"></a>1、准备编写DockerFile文件</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir <span class="hljs-regexp">/opt/my</span>dockerfile <br>vim Dockerfile  <span class="hljs-regexp">//</span>Dockerfile 注意大写<br></code></pre></td></tr></table></figure>
+
+<p>编写DockerFile文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs \">FROM centos<br>MAINTAINER gjq&lt;guojq144@163.com&gt;<br> <br>ENV MYPATH /usr/local<br>WORKDIR $MYPATH<br> <br>RUN yum -y install vim<br>RUN yum -y install net-tools<br> <br>EXPOSE 80<br> <br>CMD echo $MYPATH<br>CMD echo &quot;success--------------ok&quot;<br>CMD /bin/bash<br><br></code></pre></td></tr></table></figure>
+
+<h5 id="2、构建"><a href="#2、构建" class="headerlink" title="2、构建"></a>2、构建</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker build -t 新镜像名字:TAG . <br><span class="hljs-regexp">//</span>注意最后有个 .<br></code></pre></td></tr></table></figure>
+
+<h5 id="3、运行"><a href="#3、运行" class="headerlink" title="3、运行"></a>3、运行</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker <span class="hljs-built_in">run</span> -<span class="hljs-keyword">it</span> 新镜像名字:TAG <br></code></pre></td></tr></table></figure>
+
+<h5 id="4、列出镜像的变更历史"><a href="#4、列出镜像的变更历史" class="headerlink" title="4、列出镜像的变更历史"></a>4、列出镜像的变更历史</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">history</span> 镜像名<br></code></pre></td></tr></table></figure>
+
+<h3 id="5、总结"><a href="#5、总结" class="headerlink" title="5、总结"></a>5、总结</h3><p><img src="/img/dockerfile3.jpg" srcset="/img/loading.gif" lazyload alt="dockerfile3"></p>
+<h2 id="八、Docker常用安装"><a href="#八、Docker常用安装" class="headerlink" title="八、Docker常用安装"></a>八、Docker常用安装</h2><h3 id="1、安装Nginx"><a href="#1、安装Nginx" class="headerlink" title="1、安装Nginx"></a>1、安装Nginx</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker pull nginx</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker <span class="hljs-builtin-name">run</span> -di <span class="hljs-attribute">--name</span>=mynginx -p 80:80 nginx<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、安装redis"><a href="#2、安装redis" class="headerlink" title="2、安装redis"></a>2、安装redis</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker pull redis</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir -p <span class="hljs-regexp">/mydata/</span>redis/conf<br>touch <span class="hljs-regexp">/mydata/</span>redis<span class="hljs-regexp">/conf/</span>redis.conf<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker run -p <span class="hljs-number">6379</span>:<span class="hljs-number">6379</span> --name redis \<br>-v <span class="hljs-regexp">/mydata/</span>redis<span class="hljs-regexp">/data:/</span>data \<br>-v <span class="hljs-regexp">/mydata/</span>redis<span class="hljs-regexp">/conf/</span>redis.conf:<span class="hljs-regexp">/etc/</span>redis/redis.conf \<br>-d redis redis-server <span class="hljs-regexp">/etc/</span>redis/redis.conf<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、安装tomcat"><a href="#3、安装tomcat" class="headerlink" title="3、安装tomcat"></a>3、安装tomcat</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -d -p <span class="hljs-number">8080</span>:<span class="hljs-number">8080</span> tomcat<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">docker <span class="hljs-built_in">exec</span> -it [tomcat镜像<span class="hljs-built_in">id</span>] /<span class="hljs-built_in">bin</span>/bash<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">ls</span> <span class="hljs-literal">-l</span><br><span class="hljs-built_in">rm</span> <span class="hljs-literal">-r</span> webapps<br><span class="hljs-built_in">mv</span> webapps.dist webapps<br>退出 ctrl+P+Q<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、安装mysql"><a href="#4、安装mysql" class="headerlink" title="4、安装mysql"></a>4、安装mysql</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker run -p <span class="hljs-number">3306</span>:<span class="hljs-number">3306</span> --name mysql \<br>-v <span class="hljs-regexp">/mydata/my</span>sql<span class="hljs-regexp">/log:/</span>var<span class="hljs-regexp">/log/my</span>sql \<br>-v <span class="hljs-regexp">/mydata/my</span>sql<span class="hljs-regexp">/data:/</span>var<span class="hljs-regexp">/lib/my</span>sql \<br>-v <span class="hljs-regexp">/mydata/my</span>sql<span class="hljs-regexp">/conf:/</span>etc/mysql \<br>-e MYSQL_ROOT_PASSWORD=root \<br>-d mysql:<span class="hljs-number">5.7</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">vi /mydata/mysql/conf/my.cnf<br>[client]<br><span class="hljs-keyword">default</span>-<span class="hljs-type">character</span>-<span class="hljs-keyword">set</span>=utf8<br>[mysql]<br><span class="hljs-keyword">default</span>-<span class="hljs-type">character</span>-<span class="hljs-keyword">set</span>=utf8<br>[mysqld]<br>init_connect=<span class="hljs-string">&#x27;SET collation_connection = utf8_unicode_ci&#x27;</span><br>init_connect=<span class="hljs-string">&#x27;SET NAMES utf8&#x27;</span><br><span class="hljs-type">character</span>-<span class="hljs-keyword">set</span>-<span class="hljs-keyword">server</span>=utf8<br><span class="hljs-keyword">collation</span>-<span class="hljs-keyword">server</span>=utf8_unicode_ci<br>skip-<span class="hljs-type">character</span>-<span class="hljs-keyword">set</span>-client-handshake<br>skip-<span class="hljs-type">name</span>-resolve<br></code></pre></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
